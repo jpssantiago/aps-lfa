@@ -11,7 +11,6 @@ public class App {
 
         requestAttributions(scanner);
         requestOperation(scanner);
-        //printVariables();
 
         scanner.close();
     }
@@ -149,27 +148,8 @@ public class App {
         return null;
     }
 
-    static void printVariables() {
-        for (Variable variable : _variables) {
-            System.out.println(variable.getName() + ": " + variable.getValue());
-        }
-    }
-
     static void closeProgram(String msg) {
         System.out.println(msg + " Programa encerrado.");
         System.exit(0);
     }
 }
-
-/*
-if (map.contains("/")) {
-            for (int i = 0; i < map.size(); i++) {
-                if (map.get(i).equals("/")) {
-                    String previous = map.get(i - 1);
-                    String next = map.get(i + 1);
-    
-                    firstOperation = new Operation("/", Double.parseDouble(previous), Double.parseDouble(next));
-                }
-            }
-        }
-        */
