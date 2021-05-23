@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/*
+Estudantes:
+    - João Pedro Terra Santiago - 21255504
+    - João Pedro Gonçalves da Cruz - 21322581
+*/
+
 public class App {
     static ArrayList<Variable> _variables = new ArrayList<Variable>();
     static String[] operators = {"/", "*", "+", "-"};

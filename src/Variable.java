@@ -1,3 +1,9 @@
+/*
+Estudantes:
+    - João Pedro Terra Santiago - 21255504
+    - João Pedro Gonçalves da Cruz - 21322581
+*/
+
 public class Variable {
     String name;
     double value;

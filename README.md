@@ -1,3 +1,7 @@
+## Estudantes
+* João Pedro Terra Santiago - 21255504
+* João Pedro Gonçalves da Cruz - 21322581
+
 ## Primeiro uso
 
 * Execute o projeto.
