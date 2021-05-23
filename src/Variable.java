@@ -26,6 +26,12 @@ public class Variable {
             return null;
         }
 
+        if (!Character.isLetter(values[0].charAt(0))) {
+            return null;
+        }
+
+        // TODO: Só poder letras, números e underline.
+
         try {
             double value = Double.parseDouble(values[1]);
 

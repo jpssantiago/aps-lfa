@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class App {
     static ArrayList<Variable> _variables = new ArrayList<Variable>();
+    static String[] operators = {"/", "*", "+", "-"};
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -21,7 +23,7 @@ public class App {
         while (line != null) {
             line = scanner.nextLine();
 
-            if (line == "") { // Pular pra próxima etapa.
+            if (line.trim().length() == 0) { // Pular pra próxima etapa.
                 if (_variables.size() > 0) {
                     line = null;
                     break;
@@ -52,19 +54,89 @@ public class App {
             closeProgram("A variável de destino não existe.");
         }
 
-        if (!data[1].contains("+") || !data[1].contains("-") || !data[1].contains("*") || !data[1].contains("/")) {
+        if (!data[1].contains("+") && !data[1].contains("-") && !data[1].contains("*") && !data[1].contains("/")) {
             closeProgram("Nenhuma operação encontrada.");
         }
 
-        // TODO: Separar os valores de cada operação.
-        if (data[1].contains("/")) {
-            String[] values = data[1].split("/");
-            for (String s : values) {
-                System.out.println(s);
+        try {
+            String operationStr = replaceVariablesWithValues(data[1]);
+            for (int i = 0; i < operators.length; i++) {
+                while (operationStr.contains(operators[i])) {
+                    ArrayList<String> map = mapOperations(operationStr);
+                    operationStr = replaceVariablesWithValues(generateNewLine(map, operators[i]));
+                }
+            }
+
+            System.out.println(hostVariable.name + " = " + operationStr);
+        } catch (Exception e) {
+            closeProgram("As operações informadas não são válidas.");
+        }
+    }
+
+    static String generateNewLine(ArrayList<String> map, String operator) {
+        String newLine = "";
+
+        int operatorIndex = map.indexOf(operator);
+        double previous = Double.parseDouble(map.get(operatorIndex - 1));
+        double next = Double.parseDouble(map.get(operatorIndex + 1));
+
+        for (int i = 0; i < map.size(); i++) {
+            if (i == operatorIndex + 1 || i == operatorIndex -1) {
+                continue;
+            } else if (i == operatorIndex) {
+                newLine += makeOperation(operator, previous, next);
+            } else {
+                newLine += map.get(i);
             }
         }
 
-        //System.out.println("Alterando o valor da variável " + hostVariable.getName() + ".");
+        return newLine;
+    }
+
+    static double makeOperation(String operator, double a, double b) {
+        switch (operator) {
+            case "/":
+                return a / b;
+            case "*":
+                return a * b;
+            case "+":
+                return a + b;
+            case "-":
+                return a - b;
+        }
+
+        return 0;
+    }
+
+    static ArrayList<String> mapOperations(String line) {
+        ArrayList<String> map = new ArrayList<String>();
+
+        String current = "";
+        for (int i = 0; i < line.length(); i++) {
+            String currentChar = String.valueOf(line.charAt(i));
+            if (Arrays.asList(operators).contains(currentChar)) {
+                map.add(current);
+                current = "";
+                map.add(currentChar);
+            } else {
+                current += line.charAt(i);
+            }
+        }
+        map.add(current);
+
+        return map;
+    }
+
+    static String replaceVariablesWithValues(String line) {
+        String newLine = line;
+
+        for (Variable variable : _variables) {
+            if (newLine.contains(variable.name)) {
+                newLine = newLine.replace(variable.name, String.valueOf(variable.value));
+            }
+        }
+
+        return newLine;
     }
 
     static Variable getVariableByName(String varName) {
@@ -88,3 +160,16 @@ public class App {
         System.exit(0);
     }
 }
+
+/*
+if (map.contains("/")) {
+            for (int i = 0; i < map.size(); i++) {
+                if (map.get(i).equals("/")) {
+                    String previous = map.get(i - 1);
+                    String next = map.get(i + 1);
+    
+                    firstOperation = new Operation("/", Double.parseDouble(previous), Double.parseDouble(next));
+                }
+            }
+        }
+        */
