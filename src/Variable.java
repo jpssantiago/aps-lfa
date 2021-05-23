@@ -22,20 +22,20 @@ public class Variable {
         }
 
         String[] values = attribution.split(" = ");
-        if (values[0].trim().length() == 0) {
+        String varName = values[0];
+        if (varName.trim().length() == 0) {
             return null;
         }
 
-        if (!Character.isLetter(values[0].charAt(0))) {
+        String regex = "[a-z]([a-z]|[0-9]|[_])*";
+        if (!varName.matches(regex)) {
             return null;
         }
-
-        // TODO: Só poder letras, números e underline.
 
         try {
             double value = Double.parseDouble(values[1]);
 
-            variable.name = values[0];
+            variable.name = varName;
             variable.value = value;
         }
         catch (Exception ex) {
@@ -45,3 +45,9 @@ public class Variable {
         return variable;
     }
 }
+
+/*
+if (!Character.isLetter(varName.charAt(0))) {
+            return null;
+        }
+*/
